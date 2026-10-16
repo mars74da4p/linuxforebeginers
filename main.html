@@ -103,12 +103,16 @@
 		.process div { padding: 12px; border-top: 1px solid var(--lime); color: #c2cbb9; font-size: 10px; }
 		.process b { display: block; margin-bottom: 4px; color: var(--text); font: 10px var(--mono); }
 		.chooser { padding: 22px; }
-		.chooser-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; align-items: end; gap: 12px; }
+		.chooser-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; align-items: end; gap: 12px; }
 		.field label { display: block; margin-bottom: 7px; color: #acb5a5; font: 10px var(--mono); }
 		.field select { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 5px; outline: none; background: #1a2018; color: var(--text); font-size: 12px; }
 		.recommendation { display: none; margin-top: 16px; padding: 15px; border: 1px solid rgba(197,243,107,.28); border-radius: 6px; background: rgba(197,243,107,.06); color: #dbe4d3; font-size: 12px; }
 		.recommendation.visible { display: block; }
 		.recommendation strong { color: var(--lime); }
+		.recommendation ul { margin: 10px 0 0; padding-left: 18px; }
+		.recommendation li { margin: 5px 0; }
+		.catalog-count { margin: 0 0 10px; color: var(--muted); font: 10px var(--mono); }
+		.search-results a[aria-selected="true"] { background: var(--panel-strong); color: var(--lime); }
 		.filters { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 16px; }
 		.filter-btn { padding: 7px 11px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: #aab3a4; cursor: pointer; font-size: 10px; }
 		.filter-btn[aria-pressed="true"] { border-color: var(--lime); background: var(--lime-dim); color: var(--lime); }
@@ -160,6 +164,7 @@
 			.hero { min-height: 470px; margin-top: 18px; }
 			.timeline { grid-template-columns: repeat(2,1fr); }
 			.distro-grid { grid-template-columns: repeat(2,1fr); }
+			.chooser-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 		}
 		@media (max-width: 620px) {
 			body { font-size: 14px; }
@@ -260,23 +265,15 @@
 						<div class="field"><label for="experience">Опыт</label><select id="experience"><option value="new">Начинаю с Linux</option><option value="some">Уже пользовался</option><option value="advanced">Хочу разбираться глубже</option></select></div>
 						<div class="field"><label for="priority">Приоритет</label><select id="priority"><option value="easy">Чтобы просто работало</option><option value="fresh">Свежие версии программ</option><option value="stable">Предсказуемость и серверы</option><option value="control">Контроль над системой</option></select></div>
 						<div class="field"><label for="hardware">Компьютер</label><select id="hardware"><option value="modern">Современный</option><option value="old">Старый или слабый</option><option value="gaming">Игры / новое железо</option></select></div>
+						<div class="field"><label for="purpose">Задача</label><select id="purpose"><option value="daily">Обычный компьютер</option><option value="gaming">Игры</option><option value="server">Сервер</option><option value="developer">Разработка</option><option value="privacy">Приватность</option></select></div>
 						<button class="button primary" id="recommend">Подобрать</button>
 					</div>
 					<div class="recommendation" id="recommendation" aria-live="polite"></div>
 				</div>
 				<h3 class="subhead">Популярные семейства</h3>
 				<div class="filters" role="group" aria-label="Фильтр дистрибутивов"><button class="filter-btn" data-filter="all" aria-pressed="true">Все</button><button class="filter-btn" data-filter="beginner" aria-pressed="false">Для начала</button><button class="filter-btn" data-filter="rolling" aria-pressed="false">Свежие пакеты</button><button class="filter-btn" data-filter="stable" aria-pressed="false">Стабильные</button><button class="filter-btn" data-filter="light" aria-pressed="false">Лёгкие</button></div>
-				<div class="distro-grid">
-					<article class="distro glass" data-tags="beginner stable"><div class="distro-top"><div><h3>Linux Mint</h3><span class="distro-family">UBUNTU / DEBIAN</span></div></div><p>Знакомый настольный опыт, Cinnamon и спокойный выпуск. Удобная отправная точка; основан на Ubuntu LTS.</p><div class="distro-meta"><span class="tag">понятный старт</span><span class="tag">фиксированные релизы</span></div></article>
-					<article class="distro glass" data-tags="beginner stable"><div class="distro-top"><div><h3>Ubuntu</h3><span class="distro-family">DEBIAN</span></div></div><p>Широкая поддержка оборудования и документации, крупное сообщество. LTS-релизы ориентированы на длительную поддержку.</p><div class="distro-meta"><span class="tag">универсальный</span><span class="tag">LTS</span></div></article>
-					<article class="distro glass" data-tags="beginner rolling"><div class="distro-top"><div><h3>Fedora Workstation</h3><span class="distro-family">RPM / RED HAT</span></div></div><p>Современные версии технологий и GNOME, сильная интеграция с upstream. Релизы регулярные, обновляться нужно чаще, чем LTS.</p><div class="distro-meta"><span class="tag">современный desktop</span><span class="tag">SELinux</span></div></article>
-					<article class="distro glass" data-tags="rolling advanced"><div class="distro-top"><div><h3>Arch Linux</h3><span class="distro-family">НЕЗАВИСИМЫЙ</span></div></div><p>Rolling release, свежие пакеты и ручная сборка системы. Даёт контроль, но требует читать документацию и самостоятельно обслуживать установку.</p><div class="distro-meta"><span class="tag">rolling</span><span class="tag">DIY</span></div></article>
-					<article class="distro glass" data-tags="stable"><div class="distro-top"><div><h3>Debian</h3><span class="distro-family">DEB</span></div></div><p>Общественный проект и основа многих систем. Stable предпочитает проверенные версии, что хорошо для серверов и надёжных рабочих станций.</p><div class="distro-meta"><span class="tag">надёжность</span><span class="tag">огромный репозиторий</span></div></article>
-					<article class="distro glass" data-tags="rolling advanced"><div class="distro-top"><div><h3>openSUSE Tumbleweed</h3><span class="distro-family">RPM / SUSE</span></div></div><p>Rolling release с автоматическими проверками сборок и удобными инструментами администрирования. Частые обновления требуют внимания.</p><div class="distro-meta"><span class="tag">rolling</span><span class="tag">Btrfs + Snapper</span></div></article>
-					<article class="distro glass" data-tags="light stable"><div class="distro-top"><div><h3>Lubuntu</h3><span class="distro-family">UBUNTU</span></div></div><p>Ubuntu с более лёгким рабочим столом LXQt. Подходит системам с ограниченными ресурсами, хотя возраст железа важнее названия дистро.</p><div class="distro-meta"><span class="tag">LXQt</span><span class="tag">доступный ресурс</span></div></article>
-					<article class="distro glass" data-tags="stable advanced"><div class="distro-top"><div><h3>NixOS</h3><span class="distro-family">НЕЗАВИСИМЫЙ</span></div></div><p>Декларативная конфигурация и воспроизводимые сборки. Необычная модель управления пакетами требует отдельного обучения.</p><div class="distro-meta"><span class="tag">конфигурация как код</span><span class="tag">откаты</span></div></article>
-					<article class="distro glass" data-tags="beginner stable"><div class="distro-top"><div><h3>Bazzite</h3><span class="distro-family">FEDORA ATOMIC</span></div></div><p>Игровой Linux с атомарными обновлениями и преднастроенным набором для Steam. Специализированная система, не универсальный ответ на все задачи.</p><div class="distro-meta"><span class="tag">игры</span><span class="tag">атомарный desktop</span></div></article>
-				</div>
+				<p class="catalog-count" id="catalog-count" aria-live="polite"></p>
+				<div class="distro-grid" id="distro-grid"></div>
 				<h3 class="subhead">На что смотреть при выборе</h3>
 				<div class="comparison"><table><thead><tr><th>Критерий</th><th>Что означает</th><th>Вопрос к себе</th></tr></thead><tbody>
 					<tr><td>Релизная модель</td><td>Фиксированные версии или непрерывные обновления (rolling)</td><td>Нужна предсказуемость или самые свежие пакеты?</td></tr>
@@ -360,40 +357,241 @@
 		}, { rootMargin: '-22% 0px -68% 0px' });
 		sections.forEach(section => observer.observe(section));
 
-		document.querySelectorAll('.filter-btn').forEach(button => button.addEventListener('click', () => {
-			const filter = button.dataset.filter;
-			document.querySelectorAll('.filter-btn').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-			document.querySelectorAll('.distro').forEach(card => { card.hidden = filter !== 'all' && !card.dataset.tags.split(' ').includes(filter); });
-		}));
+		const distroData = [
+			['Linux Mint', 'Ubuntu / Debian', 'Знакомый Cinnamon, простая настройка и спокойные обновления. Удобная отправная точка.', 'beginner stable easy desktop old'],
+			['Ubuntu', 'Debian', 'Широкая поддержка оборудования и документации; LTS-релизы рассчитаны на долгую поддержку.', 'beginner stable easy desktop modern server developer'],
+			['Fedora Workstation', 'RPM / Red Hat', 'Современный GNOME, новые технологии и близость к upstream; релизы обновляются регулярно.', 'some fresh easy desktop modern developer'],
+			['Arch Linux', 'Независимый', 'Rolling release и ручная настройка с большим контролем; требует самостоятельного обслуживания.', 'advanced rolling fresh control desktop developer'],
+			['Debian', 'DEB', 'Общественный проект с проверенными стабильными пакетами и широким применением на серверах.', 'stable easy server developer privacy'],
+			['openSUSE Tumbleweed', 'RPM / SUSE', 'Rolling release с автоматическими проверками сборок, Btrfs и удобными средствами администрирования.', 'rolling fresh control desktop developer'],
+			['Lubuntu', 'Ubuntu', 'Ubuntu с лёгкой средой LXQt для систем с ограниченными ресурсами.', 'beginner stable easy light desktop old'],
+			['NixOS', 'Независимый', 'Декларативная конфигурация, воспроизводимые сборки и удобные откаты; необычная модель требует обучения.', 'advanced stable control developer server'],
+			['Bazzite', 'Fedora Atomic', 'Игровая атомарная система с готовой интеграцией Steam; специализированный desktop.', 'beginner stable easy gaming desktop modern'],
+			['Pop!_OS', 'Ubuntu', 'Настольная система с удобной поддержкой графики и инструментами для разработки и игр.', 'beginner stable easy desktop gaming developer modern'],
+			['Zorin OS', 'Ubuntu', 'Дружелюбный настольный интерфейс и простая миграция с других ОС.', 'beginner stable easy desktop old'],
+			['elementary OS', 'Ubuntu', 'Цельный и минималистичный desktop с собственным набором приложений.', 'beginner stable easy desktop'],
+			['KDE neon', 'Ubuntu', 'База Ubuntu LTS с быстрыми обновлениями KDE Plasma; подходит поклонникам KDE.', 'some fresh desktop control modern'],
+			['Kubuntu', 'Ubuntu', 'Ubuntu с настраиваемой средой KDE Plasma и большим набором приложений.', 'beginner stable easy desktop'],
+			['Xubuntu', 'Ubuntu', 'Ubuntu с XFCE: привычный, гибкий и сравнительно лёгкий настольный вариант.', 'beginner stable easy light desktop old'],
+			['Ubuntu Studio', 'Ubuntu', 'Готовый набор инструментов для аудио, видео, графики и создания контента.', 'some stable desktop developer'],
+			['Ubuntu Server', 'Ubuntu', 'Серверная редакция Ubuntu с длительной поддержкой и широкой документацией.', 'some stable easy server developer'],
+			['Fedora KDE Plasma Desktop', 'RPM / Red Hat', 'Актуальная Fedora с Plasma и новыми версиями графического стека.', 'some fresh desktop control modern'],
+			['Fedora Silverblue', 'Fedora Atomic', 'Неизменяемая основа, атомарные обновления и контейнерный подход к приложениям.', 'some fresh stable desktop developer'],
+			['Fedora Server', 'RPM / Red Hat', 'Серверная Fedora с современным стеком и инструментами управления.', 'some fresh server developer'],
+			['Rocky Linux', 'RHEL-compatible', 'Стабильная корпоративная система для серверов и долгого жизненного цикла.', 'stable server advanced'],
+			['AlmaLinux', 'RHEL-compatible', 'Совместимая с экосистемой RHEL система для серверов и рабочих нагрузок.', 'stable server advanced'],
+			['Red Hat Enterprise Linux', 'RPM / Red Hat', 'Коммерческая платформа с вендорской поддержкой для корпоративной инфраструктуры.', 'stable server advanced developer'],
+			['openSUSE Leap', 'RPM / SUSE', 'Предсказуемый релиз openSUSE для рабочих станций и серверов.', 'stable server easy desktop'],
+			['openSUSE Aeon', 'RPM / SUSE', 'Атомарный desktop с автоматическими обновлениями и изолированными приложениями.', 'some stable desktop developer'],
+			['Manjaro', 'Arch-based', 'Доступный настольный rolling-дистрибутив с графическими инструментами настройки.', 'beginner rolling fresh desktop easy gaming'],
+			['EndeavourOS', 'Arch-based', 'Близкая к Arch система с удобным установщиком и сообществом.', 'some rolling fresh control desktop developer'],
+			['CachyOS', 'Arch-based', 'Производительный Arch-вариант с актуальными пакетами и настройками для игр.', 'advanced rolling fresh control gaming desktop modern'],
+			['Garuda Linux', 'Arch-based', 'Яркий rolling desktop с игровыми инструментами и снимками системы.', 'some rolling fresh gaming desktop'],
+			['Artix Linux', 'Arch-based', 'Arch-подобная система с выбором альтернатив systemd.', 'advanced rolling fresh control desktop'],
+			['Gentoo', 'Независимый', 'Система с настройкой сборки пакетов и глубоким контролем над конфигурацией.', 'advanced rolling fresh control developer'],
+			['Void Linux', 'Независимый', 'Независимый дистрибутив с runit, rolling-моделью и лаконичным базовым окружением.', 'advanced rolling fresh control light desktop'],
+			['Alpine Linux', 'Независимый', 'Компактная система с musl и OpenRC, часто используемая в контейнерах и серверах.', 'advanced stable light server privacy'],
+			['Slackware', 'Независимый', 'Одна из старейших систем с простым устройством и минимальной автоматизацией.', 'advanced stable control server desktop'],
+			['Mageia', 'Независимый', 'Дружелюбный community-дистрибутив с графическими инструментами настройки.', 'beginner stable easy desktop'],
+			['MX Linux', 'Debian', 'Практичный desktop на базе Debian с набором собственных системных утилит.', 'beginner stable easy light desktop old'],
+			['antiX', 'Debian', 'Лёгкая система без systemd для старых и маломощных компьютеров.', 'beginner stable light old'],
+			['Puppy Linux', 'Независимый', 'Очень компактная система для запуска с USB и старого оборудования.', 'beginner stable light old'],
+			['Kali Linux', 'Debian', 'Специализированный набор для тестирования безопасности; не обычная система для новичка.', 'advanced rolling security developer'],
+			['Parrot OS', 'Debian', 'Система для кибербезопасности, разработки и приватности с готовыми инструментами.', 'advanced rolling security privacy developer'],
+			['Tails', 'Debian', 'Live-система, ориентированная на приватность и минимизацию следов на устройстве.', 'some stable privacy security'],
+			['Qubes OS', 'Fedora / Xen', 'Сильная изоляция задач в виртуальных машинах; требует совместимого мощного оборудования.', 'advanced stable privacy security desktop modern'],
+			['Whonix', 'Debian', 'Система приватности с разделением рабочей среды и сетевого шлюза Tor.', 'advanced stable privacy security'],
+			['Solus', 'Независимый', 'Самостоятельный настольный дистрибутив с собственным репозиторием и средой Budgie.', 'some rolling desktop developer'],
+			['Deepin', 'Debian', 'Настольный дистрибутив с собственной графической средой и приложениями.', 'beginner stable easy desktop'],
+			['Vanilla OS', 'Ubuntu / Debian', 'Атомарный desktop с изолированными пакетами и обновлениями образа.', 'some stable desktop developer'],
+			['blendOS', 'Arch-based', 'Неизменяемая система с контейнеризированными окружениями и несколькими источниками пакетов.', 'advanced rolling control developer desktop'],
+			['Nobara', 'Fedora', 'Fedora-вариант с настройками и пакетами для игр, стриминга и создания контента.', 'some rolling fresh gaming desktop'],
+			['Oracle Linux', 'RPM / Oracle', 'Корпоративная система для серверов и приложений в инфраструктуре Oracle.', 'stable server advanced'],
+			['Chimera Linux', 'Независимый', 'Современная независимая система с musl, LLVM и альтернативным системным стеком.', 'advanced rolling control server']
+		];
+		const distroGrid = document.getElementById('distro-grid');
+		const distroCards = distroData.map(([name, family, description, tags], index) => {
+			const card = document.createElement('article');
+			card.className = 'distro glass';
+			card.id = `distro-${index + 1}`;
+			card.dataset.tags = tags;
+			const top = document.createElement('div');
+			top.className = 'distro-top';
+			const heading = document.createElement('div');
+			const title = document.createElement('h3');
+			title.textContent = name;
+			const familyLabel = document.createElement('span');
+			familyLabel.className = 'distro-family';
+			familyLabel.textContent = family.toLocaleUpperCase('ru');
+			heading.append(title, familyLabel);
+			top.append(heading);
+			const summary = document.createElement('p');
+			summary.textContent = description;
+			const meta = document.createElement('div');
+			meta.className = 'distro-meta';
+			tags.split(' ').forEach(tag => {
+				if (!['beginner', 'rolling', 'stable', 'light', 'advanced', 'gaming', 'server', 'privacy'].includes(tag)) return;
+				const chip = document.createElement('span');
+				chip.className = 'tag';
+				chip.textContent = ({ beginner: 'для начала', rolling: 'rolling', stable: 'стабильный', light: 'лёгкий', advanced: 'для опытных', gaming: 'игры', server: 'сервер', privacy: 'приватность' })[tag];
+				meta.append(chip);
+			});
+			card.append(top, summary, meta);
+			distroGrid.append(card);
+			return { name, family, description, tags: tags.split(' '), card };
+		});
 
-		const recommendations = {
-			new: { easy: ['Linux Mint', 'Знакомый интерфейс и спокойные обновления — хороший первый шаг.'], fresh: ['Fedora Workstation', 'Современные технологии, цельный GNOME и сильная документация.'], stable: ['Ubuntu LTS', 'Длительная поддержка, широкая документация и много инструкций.'], control: ['Linux Mint', 'Начните с готовой системы, а детали изучайте постепенно.'] },
-			some: { easy: ['Ubuntu', 'Широкая поддержка оборудования и большое сообщество.'], fresh: ['Fedora Workstation', 'Новые версии программ без необходимости собирать систему вручную.'], stable: ['Debian Stable', 'Проверенные пакеты и понятная модель стабильного релиза.'], control: ['openSUSE Tumbleweed', 'Rolling release с контролем качества сборок и мощными инструментами.'] },
-			advanced: { easy: ['Fedora Workstation', 'Современная система с разумными настройками по умолчанию.'], fresh: ['Arch Linux', 'Свежие пакеты и полный контроль, если готовы обслуживать rolling-систему.'], stable: ['Debian Stable', 'Консервативный релиз и широкий выбор способов настройки.'], control: ['NixOS', 'Декларативная конфигурация и воспроизводимые системы.'] }
+		let activeFilter = 'all';
+		function applyDistroFilter() {
+			let visibleCount = 0;
+			distroCards.forEach(distro => {
+				distro.card.hidden = activeFilter !== 'all' && !distro.tags.includes(activeFilter);
+				if (!distro.card.hidden) visibleCount++;
+			});
+			document.getElementById('catalog-count').textContent = `Показано ${visibleCount} из ${distroCards.length} дистрибутивов`;
+		}
+		document.querySelectorAll('.filter-btn').forEach(button => button.addEventListener('click', () => {
+			activeFilter = button.dataset.filter;
+			document.querySelectorAll('.filter-btn').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+			applyDistroFilter();
+		}));
+		applyDistroFilter();
+
+		const recommendationWeights = {
+			experience: { new: { beginner: 5, easy: 2, advanced: -2 }, some: { beginner: 1, advanced: 1 }, advanced: { advanced: 4, control: 2 } },
+			priority: { easy: { easy: 5, beginner: 2 }, fresh: { fresh: 5, rolling: 3 }, stable: { stable: 5, server: 1 }, control: { control: 5, advanced: 2 } },
+			hardware: { old: { light: 6 }, modern: { modern: 2, fresh: 1 }, gaming: { gaming: 6, fresh: 2 } },
+			purpose: { daily: { desktop: 3, easy: 1 }, gaming: { gaming: 7 }, server: { server: 7, stable: 2 }, developer: { developer: 6, control: 1 }, privacy: { privacy: 7, security: 2 } }
 		};
 		document.getElementById('recommend').addEventListener('click', () => {
-			const experience = document.getElementById('experience').value;
-			const priority = document.getElementById('priority').value;
-			const hardware = document.getElementById('hardware').value;
-			let [name, reason] = recommendations[experience][priority];
-			if (hardware === 'old' && experience === 'new') { name = 'Lubuntu или Linux Mint XFCE'; reason = 'Более лёгкая среда может помочь старому компьютеру. Сначала проверьте live-сессию: ресурс зависит от модели и задач.'; }
-			if (hardware === 'gaming') { name = priority === 'stable' ? 'Bazzite или Ubuntu LTS' : 'Bazzite или Fedora'; reason = 'У игровых систем важны драйверы и конкретные игры. Проверьте вашу библиотеку, античит и совместимость GPU перед установкой.'; }
+			const selections = {
+				experience: document.getElementById('experience').value,
+				priority: document.getElementById('priority').value,
+				hardware: document.getElementById('hardware').value,
+				purpose: document.getElementById('purpose').value
+			};
+			const ranked = distroCards.map(distro => {
+				let score = 0;
+				const reasons = [];
+				for (const [dimension, choice] of Object.entries(selections)) {
+					for (const [tag, weight] of Object.entries(recommendationWeights[dimension][choice])) {
+						if (!distro.tags.includes(tag)) continue;
+						score += weight;
+						if (weight >= 3 && reasons.length < 3) reasons.push(({ beginner: 'подходит для старта', easy: 'прост в повседневном использовании', advanced: 'даёт простор для изучения', fresh: 'предлагает свежие пакеты', rolling: 'rolling-релиз', stable: 'предсказуемые обновления', control: 'гибкая настройка', light: 'подходит слабому компьютеру', gaming: 'ориентирован на игры', server: 'подходит для серверов', developer: 'удобен для разработки', privacy: 'ориентирован на приватность', security: 'включает средства безопасности', desktop: 'готов для рабочего стола', modern: 'подходит современному оборудованию' })[tag]);
+					}
+				}
+				return { ...distro, score, reasons };
+			}).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
 			const result = document.getElementById('recommendation');
-			result.innerHTML = `<strong>${name}</strong> — ${reason} Это стартовая точка, не рейтинг: попробуйте систему с USB и проверьте своё оборудование.`;
+			result.replaceChildren();
+			const lead = document.createElement('div');
+			const first = ranked[0];
+			const firstName = document.createElement('strong');
+			firstName.textContent = `${first.name} · совпадение ${first.score} баллов`;
+			lead.append(firstName, document.createTextNode(` — ${first.description} Совпадение ориентировочное: проверьте поддержку оборудования и нужных программ в live-сессии.`));
+			result.append(lead);
+			const alternatives = document.createElement('ul');
+			ranked.slice(1, 3).forEach(distro => {
+				const item = document.createElement('li');
+				item.textContent = `${distro.name} — ${distro.reasons.slice(0, 2).join(', ') || distro.description}`;
+				alternatives.append(item);
+			});
+			result.append(alternatives);
 			result.classList.add('visible');
 		});
 
+		function normalizeSearch(text) {
+			return text.toLocaleLowerCase('ru').replaceAll('ё', 'е').replace(/[^\p{L}\p{N}+#.-]+/gu, ' ').trim();
+		}
+		function editDistanceAtMostOne(left, right) {
+			if (Math.abs(left.length - right.length) > 1) return false;
+			let leftIndex = 0;
+			let rightIndex = 0;
+			let edits = 0;
+			while (leftIndex < left.length && rightIndex < right.length) {
+				if (left[leftIndex] === right[rightIndex]) { leftIndex++; rightIndex++; continue; }
+				if (++edits > 1) return false;
+				if (left.length > right.length) leftIndex++;
+				else if (right.length > left.length) rightIndex++;
+				else { leftIndex++; rightIndex++; }
+			}
+			return edits + Number(leftIndex < left.length || rightIndex < right.length) <= 1;
+		}
+		const searchAliases = {
+			'дистро': ['дистрибутив'], 'дистрибутивы': ['дистрибутив'], 'новичок': ['начало', 'beginner'], 'новичкам': ['начало', 'beginner'],
+			'игры': ['gaming', 'игровой'], 'гейминг': ['gaming', 'игровой'], 'сервер': ['server'], 'разработка': ['developer'], 'приватность': ['privacy', 'security'],
+			'легкий': ['light'], 'легкая': ['light'], 'слабый': ['light'], 'свежие': ['rolling', 'fresh'], 'обновления': ['rolling', 'fresh'],
+			'стабильность': ['stable'], 'стабильный': ['stable'], 'настройка': ['control'], 'безопасность': ['security', 'privacy'],
+			'рабочий': ['desktop'], 'стол': ['desktop'], 'арх': ['arch'], 'убунту': ['ubuntu'], 'дебиан': ['debian'], 'федора': ['fedora'], 'минт': ['mint'], 'вайфай': ['wifi']
+		};
+		const searchableSections = [...document.querySelectorAll('main section[id]')].map(section => ({
+			title: section.querySelector('h2')?.textContent.trim() || section.id,
+			href: `#${section.id}`,
+			text: normalizeSearch(section.textContent),
+			kind: 'Раздел'
+		}));
 		const searchIndex = [
-			['Карта системы и слои', '#map', 'GNU, приложения, системные службы'], ['История и философия свободного ПО', '#story', 'GNU, лицензии, разработка, Линус Торвальдс'], ['Как работает ядро Linux', '#kernel', 'память, процессы, драйверы, загрузка, системные вызовы'], ['Выбор дистрибутива', '#distros', 'Ubuntu, Debian, Fedora, Arch, Mint, NixOS, пакеты'], ['Рабочие столы, оконные менеджеры, Wayland и X11', '#desktop', 'KDE, GNOME, Cinnamon, XFCE, Sway, i3'], ['Инициализация, пакеты, файловые системы и shell', '#system', 'systemd, OpenRC, APT, DNF, pacman, Flatpak, Btrfs, Bash'], ['Установка, игры и терминал', '#daily', 'резервная копия, Proton, sudo, live USB'], ['Плюсы и ограничения Linux', '#tradeoffs', 'совместимость, безопасность, недостатки'], ['Словарь Linux-терминов', '#glossary', 'дистрибутив, репозиторий, daemon, upstream']
+			...searchableSections,
+			...distroCards.map(distro => ({ title: distro.name, href: `#${distro.card.id}`, text: normalizeSearch(`${distro.name} ${distro.family} ${distro.description} ${distro.tags.join(' ')}`), kind: 'Дистрибутив' }))
 		];
 		const searchInput = document.getElementById('search');
 		const resultsBox = document.getElementById('search-results');
-		searchInput.addEventListener('input', () => {
-			const query = searchInput.value.trim().toLocaleLowerCase('ru');
-			if (!query) { resultsBox.classList.remove('open'); resultsBox.innerHTML = ''; return; }
-			const results = searchIndex.filter(([title, , terms]) => title.toLocaleLowerCase('ru').includes(query) || terms.toLocaleLowerCase('ru').includes(query));
-			resultsBox.innerHTML = results.length ? results.map(([title, href]) => `<a role="option" href="${href}">${title}</a>`).join('') : '<p>Ничего не найдено. Попробуйте другой термин.</p>';
+		let activeSearchResult = -1;
+		function searchScore(item, queryTokens) {
+			const words = item.text.split(' ');
+			let score = 0;
+			let matched = 0;
+			for (const token of queryTokens) {
+				const variants = [token, ...(searchAliases[token] || [])];
+				let best = 0;
+				for (const variant of variants) {
+					if (item.text.includes(variant)) best = Math.max(best, item.title.toLocaleLowerCase('ru').includes(variant) ? 8 : 4);
+					if (!best && variant.length >= 5 && words.some(word => editDistanceAtMostOne(variant, word))) best = 1;
+				}
+				if (best) { score += best; matched++; }
+			}
+			return matched >= Math.ceil(queryTokens.length / 2) ? score + matched * 2 : 0;
+		}
+		function updateSearchResults() {
+			const tokens = normalizeSearch(searchInput.value).split(' ').filter(token => token.length > 1);
+			resultsBox.replaceChildren();
+			activeSearchResult = -1;
+			if (!tokens.length) { resultsBox.classList.remove('open'); return; }
+			const results = searchIndex.map(item => ({ ...item, score: searchScore(item, tokens) })).filter(item => item.score > 0).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title)).slice(0, 8);
+			if (!results.length) {
+				const empty = document.createElement('p');
+				empty.textContent = 'Ничего не найдено. Попробуйте другое слово или часть названия.';
+				resultsBox.append(empty);
+			} else {
+				results.forEach(item => {
+					const link = document.createElement('a');
+					link.href = item.href;
+					link.setAttribute('role', 'option');
+					link.setAttribute('aria-selected', 'false');
+					link.textContent = `${item.title} · ${item.kind}`;
+					resultsBox.append(link);
+				});
+			}
 			resultsBox.classList.add('open');
+		}
+		function selectSearchResult(index) {
+			const links = [...resultsBox.querySelectorAll('a[role="option"]')];
+			if (!links.length) return;
+			activeSearchResult = (index + links.length) % links.length;
+			links.forEach((link, linkIndex) => link.setAttribute('aria-selected', String(linkIndex === activeSearchResult)));
+			links[activeSearchResult].scrollIntoView({ block: 'nearest' });
+		}
+		searchInput.addEventListener('input', updateSearchResults);
+		searchInput.addEventListener('keydown', event => {
+			if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+				event.preventDefault();
+				const count = resultsBox.querySelectorAll('a[role="option"]').length;
+				const nextIndex = activeSearchResult === -1 && event.key === 'ArrowUp' ? count - 1 : activeSearchResult + (event.key === 'ArrowDown' ? 1 : -1);
+				selectSearchResult(nextIndex);
+			} else if (event.key === 'Enter') {
+				const selected = resultsBox.querySelector('[aria-selected="true"]') || resultsBox.querySelector('a[role="option"]');
+				if (selected) { event.preventDefault(); selected.click(); }
+			} else if (event.key === 'Escape') resultsBox.classList.remove('open');
 		});
 		resultsBox.addEventListener('click', event => { if (event.target.closest('a')) resultsBox.classList.remove('open'); });
 		document.addEventListener('click', event => { if (!event.target.closest('.search-wrap')) resultsBox.classList.remove('open'); });
