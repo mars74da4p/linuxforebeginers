@@ -17,7 +17,7 @@
 			--panel-strong: rgba(255, 255, 255, .085);
 			--line: rgba(234, 242, 224, .12);
 			--text: #eef1e8;
-			--muted: #a1aa9b;
+			--muted: #b8c2b0; /* Улучшена контрастность текста */
 			--lime: #c5f36b;
 			--lime-dim: #26351a;
 			--orange: #f0a36b;
@@ -31,6 +31,13 @@
 		a { color: inherit; text-decoration: none; }
 		button, input, select { font: inherit; }
 		button { color: inherit; }
+		
+		/* Фокусы для доступности (A11y) */
+		a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible {
+			outline: 2px solid var(--lime);
+			outline-offset: 2px;
+		}
+
 		.topbar { position: sticky; top: 0; z-index: 20; height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 5vw; border-bottom: 1px solid var(--line); background: rgba(16, 20, 16, .78); backdrop-filter: blur(20px); }
 		.brand { display: inline-flex; align-items: center; gap: 11px; font-size: 14px; font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
 		.brand-mark { display: grid; width: 31px; height: 31px; place-items: center; border-radius: 9px; background: var(--lime); color: #17200d; font: 500 13px var(--mono); }
@@ -51,17 +58,17 @@
 		h1, h2, h3, p { margin-top: 0; }
 		h1 { max-width: 650px; margin: 22px 0 18px; font-size: clamp(42px, 7.4vw, 82px); line-height: .99; letter-spacing: -.055em; }
 		h1 span { color: var(--lime); }
-		.hero-copy > p { max-width: 550px; margin-bottom: 26px; color: #c2c9bd; font-size: 15px; }
+		.hero-copy > p { max-width: 550px; margin-bottom: 26px; color: #d2d9cc; font-size: 15px; }
 		.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 11px; }
-		.button { display: inline-flex; min-height: 43px; align-items: center; justify-content: center; gap: 9px; padding: 0 16px; border: 1px solid var(--line); border-radius: 6px; background: rgba(255, 255, 255, .07); color: var(--text); font-size: 12px; font-weight: 700; transition: transform .2s, background .2s; }
+		.button { display: inline-flex; min-height: 43px; align-items: center; justify-content: center; gap: 9px; padding: 0 16px; border: 1px solid var(--line); border-radius: 6px; background: rgba(255, 255, 255, .07); color: var(--text); font-size: 12px; font-weight: 700; transition: transform .2s, background .2s; cursor: pointer; }
 		.button:hover { transform: translateY(-2px); background: rgba(255,255,255,.13); }
 		.button.primary { border-color: var(--lime); background: var(--lime); color: #15200c; }
 		.search-wrap { position: relative; width: min(340px, 100%); }
 		.search-wrap input { width: 100%; height: 43px; padding: 0 14px 0 38px; border: 1px solid var(--line); border-radius: 6px; outline: 0; background: rgba(9, 12, 9, .68); color: var(--text); font-size: 12px; }
 		.search-wrap input:focus { border-color: var(--lime); }
 		.search-icon { position: absolute; top: 9px; left: 13px; color: #879181; }
-		.search-results { position: absolute; top: 49px; right: 0; left: 0; z-index: 10; display: none; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #1a2018; box-shadow: 0 14px 38px #0008; }
-		.search-results.open { display: block; }
+		.search-results { position: absolute; top: 49px; right: 0; left: 0; z-index: 10; display: none; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #1a2018; box-shadow: 0 14px 38px #0008; opacity: 0; transition: opacity 0.2s ease; }
+		.search-results.open { display: block; opacity: 1; }
 		.search-results a, .search-results p { display: block; margin: 0; padding: 10px 13px; color: #dce2d6; font-size: 12px; }
 		.search-results a:hover { background: var(--panel-strong); color: var(--lime); }
 		section { margin: 0 0 85px; scroll-margin-top: 92px; }
@@ -81,7 +88,7 @@
 		.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 		.content-panel { padding: 21px 22px; }
 		.content-panel h3 { margin-bottom: 10px; font-size: 15px; }
-		.content-panel p { margin-bottom: 10px; color: #b0b9a9; font-size: 12px; }
+		.content-panel p { margin-bottom: 10px; color: var(--muted); font-size: 12px; }
 		.content-panel p:last-child { margin-bottom: 0; }
 		.timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 		.timeline-item { min-height: 157px; padding: 19px; }
@@ -105,7 +112,7 @@
 		.chooser { padding: 22px; }
 		.chooser-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; align-items: end; gap: 12px; }
 		.field label { display: block; margin-bottom: 7px; color: #acb5a5; font: 10px var(--mono); }
-		.field select { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 5px; outline: none; background: #1a2018; color: var(--text); font-size: 12px; }
+		.field select { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 5px; outline: none; background: #1a2018; color: var(--text); font-size: 12px; cursor: pointer; }
 		.recommendation { display: none; margin-top: 16px; padding: 15px; border: 1px solid rgba(197,243,107,.28); border-radius: 6px; background: rgba(197,243,107,.06); color: #dbe4d3; font-size: 12px; }
 		.recommendation.visible { display: block; }
 		.recommendation strong { color: var(--lime); }
@@ -116,7 +123,10 @@
 		.filters { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 16px; }
 		.filter-btn { padding: 7px 11px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: #aab3a4; cursor: pointer; font-size: 10px; }
 		.filter-btn[aria-pressed="true"] { border-color: var(--lime); background: var(--lime-dim); color: var(--lime); }
-		.distro-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+		
+		/* Улучшенная адаптивная сетка дистрибутивов */
+		.distro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+		
 		.distro { padding: 17px; transition: border-color .2s, transform .2s; }
 		.distro:hover { transform: translateY(-2px); border-color: rgba(197,243,107,.45); }
 		.distro[hidden] { display: none; }
@@ -149,7 +159,7 @@
 		.tradeoffs .content-panel:first-child { border-top: 2px solid var(--lime); }
 		.tradeoffs .content-panel:last-child { border-top: 2px solid var(--orange); }
 		.tradeoffs h3 { font-size: 14px; }
-		.tradeoffs ul { margin: 0; padding-left: 17px; color: #b0b9a9; font-size: 11px; }
+		.tradeoffs ul { margin: 0; padding-left: 17px; color: var(--muted); font-size: 11px; }
 		.tradeoffs li { margin: 6px 0; }
 		.glossary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 		.term { padding: 13px 15px; }
@@ -165,7 +175,6 @@
 			.side-nav a.active { border-color: rgba(197,243,107,.25); }
 			.hero { min-height: 470px; margin-top: 18px; }
 			.timeline { grid-template-columns: repeat(2,1fr); }
-			.distro-grid { grid-template-columns: repeat(2,1fr); }
 			.chooser-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 		}
 		@media (max-width: 620px) {
@@ -190,7 +199,7 @@
 			.timeline { grid-template-columns: 1fr 1fr; }
 			.timeline-item { min-height: 175px; padding: 14px; }
 			.chooser-row { grid-template-columns: 1fr; }
-			.distro-grid, .choices { grid-template-columns: 1fr; }
+			.choices { grid-template-columns: 1fr; }
 			.distro p { min-height: 0; }
 			.stack-list, .glossary { grid-template-columns: 1fr; }
 			.stack-row { grid-template-columns: 95px 1fr; }
@@ -268,7 +277,7 @@
 						<div class="field"><label for="priority">Приоритет</label><select id="priority"><option value="easy">Чтобы просто работало</option><option value="fresh">Свежие версии программ</option><option value="stable">Предсказуемость и серверы</option><option value="control">Контроль над системой</option></select></div>
 						<div class="field"><label for="hardware">Компьютер</label><select id="hardware"><option value="modern">Современный</option><option value="old">Старый или слабый</option><option value="gaming">Игры / новое железо</option></select></div>
 						<div class="field"><label for="purpose">Задача</label><select id="purpose"><option value="daily">Обычный компьютер</option><option value="gaming">Игры</option><option value="server">Сервер</option><option value="developer">Разработка</option><option value="privacy">Приватность</option></select></div>
-						<button class="button primary" id="recommend">Подобрать</button>
+						<button class="button primary" id="recommend">Обновить подбор</button>
 					</div>
 					<div class="recommendation" id="recommendation" aria-live="polite"></div>
 				</div>
@@ -469,7 +478,8 @@
 			hardware: { old: { light: 6 }, modern: { modern: 2, fresh: 1 }, gaming: { gaming: 6, fresh: 2 } },
 			purpose: { daily: { desktop: 3, easy: 1 }, gaming: { gaming: 7 }, server: { server: 7, stable: 2 }, developer: { developer: 6, control: 1 }, privacy: { privacy: 7, security: 2 } }
 		};
-		document.getElementById('recommend').addEventListener('click', () => {
+
+		function performRecommendation() {
 			const selections = {
 				experience: document.getElementById('experience').value,
 				priority: document.getElementById('priority').value,
@@ -504,7 +514,14 @@
 			});
 			result.append(alternatives);
 			result.classList.add('visible');
+		}
+
+		// Автоматический пересчет рекомендаций при изменении селектов
+		['experience', 'priority', 'hardware', 'purpose'].forEach(id => {
+			document.getElementById(id).addEventListener('change', performRecommendation);
 		});
+		document.getElementById('recommend').addEventListener('click', performRecommendation);
+		performRecommendation(); // Первичный вывод
 
 		function normalizeSearch(text) {
 			return text.toLocaleLowerCase('ru').replaceAll('ё', 'е').replace(/[^\p{L}\p{N}+#.-]+/gu, ' ').trim();
